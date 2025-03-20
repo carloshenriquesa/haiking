@@ -1,6 +1,5 @@
 "use client";
-import { useEffect } from "react";
-import { motion, stagger, useAnimate } from "framer-motion";
+import { motion, useAnimate } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 export default function TextGenerateEffect({
@@ -16,31 +15,30 @@ export default function TextGenerateEffect({
 }) {
   const [scope, animate] = useAnimate();
   const wordsArray = words.split(" ");
-  useEffect(() => {
-    animate(
-      "span",
-      {
-        opacity: 1,
-        filter: filter ? "blur(0px)" : "none",
+  
+  const spanVariants = {
+    hidden: { opacity: 0, filter: filter ? "blur(10px)" : "none" },
+    visible: {
+      opacity: 1,
+      filter: filter ? "blur(0px)" : "none",
+      transition: {
+        duration: duration,
+        delay: 0.2,
       },
-      {
-        duration: duration ? duration : 1,
-        delay: stagger(0.2),
-      }
-    );
-  }, [animate, duration, filter]);
+    },
+  };
 
   const renderWords = () => {
     return (
-      <motion.div ref={scope}>
+      <motion.div 
+        initial="hidden"
+        animate="visible">
         {wordsArray.map((word, idx) => {
           return (
             <motion.span
               key={word + idx}
-              className="dark:text-white text-black opacity-0"
-              style={{
-                filter: filter ? "blur(10px)" : "none",
-              }}
+              className="dark:text-white text-black"
+              variants={spanVariants}
             >
               {word}{" "}
             </motion.span>
