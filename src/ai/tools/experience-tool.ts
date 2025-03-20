@@ -122,18 +122,7 @@ export const experienceTool = tool({
             throw new Error(`Erro ao buscar experiências: ${experiencesError.message}`);
         }
 
-        console.log('TODAY', today);
-        console.log('EXPERIENCE_DATA', experiencesData);
-        console.log('WEATHER_DATA', weatherData);
-
-        const data = {
-            answer: "",
-            cityWeather: filters.city,
-            weather: weatherData,
-            experiences: experiencesData.map(experience => (convertKeysToCamelCase(experience)))
-        }
-
-        console.log('FINAL_DATA', data);
+        const data = experiencesData.map(experience => (convertKeysToCamelCase(experience)));
 
         return data;
     }

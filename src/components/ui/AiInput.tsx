@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 
 interface AiInputProps {
   placeholders: string[];
-  prompt: string;
+  prompt?: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
 }
