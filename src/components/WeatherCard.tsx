@@ -1,7 +1,7 @@
 import { CircleArrowUp } from "lucide-react";
 import Image from "next/image";
 
-interface WeatherCardProps {
+export interface WeatherCardProps {
     icon: string;
     description: string;
     temp: number;

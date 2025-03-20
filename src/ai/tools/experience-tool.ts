@@ -55,8 +55,6 @@ export const experienceTool = tool({
     `.trim(),
     parameters: z.object({
         filters: z.object({
-            startDate: z.string().date().transform(value => new Date(value).toISOString()).optional().describe('Data incial de pesquisa que o usuário deseja realizar a experiência'),
-            endDate: z.string().date().transform(value => new Date(value).toISOString()).optional().describe('Data final de pesquisa que o usuário deseja realizar a experiência. se surgir alguma dúvida sobre qual a data final, incluir a mesma data do `startDate`.'),
             city: z.string().optional().describe('Nome da cidade para filtrar'),
             state: z.string().optional().describe('UF do estado para filtrar'),
             level: z.enum(['strong', 'moderate', 'light', 'walkway']).optional().describe('Nível de dificuldade'),
@@ -71,19 +69,8 @@ export const experienceTool = tool({
     }),
     execute: async ({ filters }) => {
         let queryExperiences = supabase.from('experiences').select('id, name, slug, image_url, level, description, tags, distance, city, state, park, elevation, duration');
-        let weatherData = null;
 
-        console.log('FILTERS', filters);
-
-        if (filters.startDate && filters.endDate) {
-            const currentDate = new Date(today);
-            const endDate = new Date(filters.endDate);
-            const diffTime = Math.abs(endDate.getTime() - currentDate.getTime());
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            if(diffDays < 8) {
-                weatherData = await getWeatherService({city: filters.city || 'Rio de Janeiro', days: diffDays + 1});
-            }
-        }
+        console.log('EXPERIENCE_FILTERS', filters);
     
         if (filters.city) {
             queryExperiences = queryExperiences.eq('city', filters.city);
